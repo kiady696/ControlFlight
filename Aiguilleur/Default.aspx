@@ -3,12 +3,12 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     
-    <asp:Label ID="Label1" runat="server" Text="Selectionner l'aeroport"></asp:Label>
+    <asp:Label ID="Label1" runat="server" Text="Selectionner l'Aéroport"></asp:Label>
     <asp:DropDownList ID="DropDownList1" runat="server">
     </asp:DropDownList>
 
     
-    <asp:Button ID="ButtonAeroport" runat="server" Text="Aller à cet Aéroport" />
+    <asp:Button ID="ButtonAeroport" runat="server" OnClick="GenerateListVolsOfAirport" Text="Aller à cet aéroport" />
     <asp:Panel ID="Panel1" runat="server" Height="371px" style="margin-top: 39px">
         <asp:Table ID="ListeVols" runat="server" Height="319px" Width="592px">
             <asp:TableRow runat="server">
