@@ -214,7 +214,9 @@
     <Compile Include="Models\AiguilleurContext.cs" />
     <Compile Include="Models\Avion.cs" />
     <Compile Include="Models\Modele.cs" />
+    <Compile Include="Models\Piste.cs" />
     <Compile Include="Models\Vol.cs" />
+    <Compile Include="Models\VolPiste.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -231,6 +233,7 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Test.cs" />
+    <Compile Include="Utils\Utilitaires.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

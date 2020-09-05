@@ -7,22 +7,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Aiguilleur.Models
 {
-    public class Modele
+    public class Modele : Avion
     {
-        [ScaffoldColumn(false)]
-        public string idModele { get; set; }
+        
+        public string id_Modele { get; set; }
 
-        [Required]
+        
         public string designation_modele { get; set; }
 
-        [Required]
-        public double besoinDecollage { get; set; }
+        
+        public double besoin_Decollage { get; set; }
 
-        [Required]
-        public double besoinArrivee { get; set; }
+        
+        public double besoin_Atterrissage { get; set; }
 
-        [Required]
-        public double longueurAvion { get; set; }
+        
+        public double longueur_modele { get; set; }
 
     }
 }

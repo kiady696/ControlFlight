@@ -3,17 +3,31 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     
-    <asp:Label ID="Label1" runat="server" Text="Selectionner l'Aéroport"></asp:Label>
-    <asp:DropDownList ID="DropDownList1" runat="server">
-    </asp:DropDownList>
+    <asp:Panel ID="Panel2" runat="server" Height="46px">
+        <asp:Label ID="Label1" runat="server" Text="Selectionner l'Aéroport"></asp:Label>
+        <asp:DropDownList ID="DropDownList1" runat="server">
+        </asp:DropDownList>
+        <asp:Panel ID="Panel3" runat="server" Height="61px" style="margin-top: 22px">
+            <asp:Label runat="server" Text="De"></asp:Label>
+            <asp:TextBox ID="TextBox1" runat="server" type ="date"></asp:TextBox>
+            <asp:Label ID="Label2" runat="server" Text="À"></asp:Label>
+            <asp:TextBox ID="TextBox2" runat="server" type ="date"></asp:TextBox>
+            <asp:Button ID="ButtonAeroport" runat="server" OnClick="GenerateListVolsOfAirport" style="margin-bottom: 20" Text="Aller à cet aéroport" />
+        </asp:Panel>
+    </asp:Panel>
 
-    
-    <asp:Button ID="ButtonAeroport" runat="server" OnClick="GenerateListVolsOfAirport" Text="Aller à cet aéroport" />
-    <asp:Panel ID="Panel1" runat="server" Height="371px" style="margin-top: 39px">
-        <asp:Table ID="ListeVols" runat="server" Height="319px" Width="592px">
-            <asp:TableRow runat="server">
-            </asp:TableRow>
-        </asp:Table>
+    <asp:Panel ID="Panel1" runat="server" Height="280px" style="margin-top: 76px" Visible="False">
+        <asp:GridView ID="ListeVols" runat="server">
+        </asp:GridView>
+        
+        
+        
+
+        <asp:Button ID="Button1" runat="server" OnClick="Proposer" Text="Proposer Pistes"  />
+        
+        
+        
+
     </asp:Panel>
 
     
