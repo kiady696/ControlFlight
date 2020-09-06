@@ -146,13 +146,21 @@ namespace Aiguilleur
                 inputIdAirport = inputIdAirport.Remove(inputIdAirport.Length - 1);
 
                 aeroportGlobal = new Aeroport(inputIdAirport);
-                aeroportGlobal.getPistes(dbc); //azo ny longueurs_pistes sy ny temps de degagements
-                                               //Soloina ny ao anatinle GridView : soloina liste ana VolPiste 
+                aeroportGlobal.getPistes(dbc); //azo ny longueurs_pistes sy ny degagement 
+                                               
+                
+                List<VolPiste> listeRedondant = Vol.getPisteDistance(dbc, listeVolsGlobale, aeroportGlobal); //ilay liste vols mety misy miverimberina entre deux dates dans cet aeroport
 
-                //null foana ilay listeVolsGlobale
-                ListeVols.DataSource = Vol.getPisteDistance(dbc, listeVolsGlobale, this.aeroportGlobal); //ilay liste vols entre deux dates sy ilay aeroport
+                //set-ena ilay liste redondant attribut an'ny Proposition
+                Proposition propos = new Proposition(listeRedondant);
+                //Alahatra ordre croissant selon vol ze mila piste voalohany
+                propos.listePropositions = listeRedondant.OrderBy(o => o.dateProbableArrivee).ToList();
+
+                //Fonction be mtrier anle listeRedondant ho (1 id_vol+id_piste) pour chaque vol
+                propos.getTheseVolPistesOnePiste(dbc);
 
 
+                ListeVols.DataSource = propos.listePropositions;   //NY APOITRA FARANY
                 ListeVols.DataBind();
 
                 //test

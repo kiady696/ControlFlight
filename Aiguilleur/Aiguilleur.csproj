@@ -213,8 +213,11 @@
     <Compile Include="Models\Aeroport.cs" />
     <Compile Include="Models\AiguilleurContext.cs" />
     <Compile Include="Models\Avion.cs" />
+    <Compile Include="Models\IntervalleTemps.cs" />
     <Compile Include="Models\Modele.cs" />
+    <Compile Include="Models\Occupation.cs" />
     <Compile Include="Models\Piste.cs" />
+    <Compile Include="Models\Proposition.cs" />
     <Compile Include="Models\Vol.cs" />
     <Compile Include="Models\VolPiste.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

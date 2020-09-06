@@ -11,7 +11,12 @@ namespace Aiguilleur.Models
 {
     public class Vol
     {
-        
+        public Vol() { }
+        public Vol(string id_Vol)
+        {
+            this.id_Vol = id_Vol ?? throw new ArgumentNullException(nameof(id_Vol));
+        }
+
         public string id_Vol { get; set; }
 
        
@@ -43,6 +48,13 @@ namespace Aiguilleur.Models
         public double besoin { get; set; }
 
         //Logique pour l'attribution de piste selon temps
+            //Proposition.getTheseVolPistesOnePiste()
+
+
+
+
+
+
 
         //Fonction qui attribue une piste a un vol selon longueur modele avion et longueur de piste
         public static List<VolPiste> getPisteDistance(DBConnection dbc ,List<Vol> vols , Aeroport aeroport)
@@ -85,8 +97,8 @@ namespace Aiguilleur.Models
                         System.Diagnostics.Debug.WriteLine(vols[0].id_Vol);
                         if (v.besoin < p.longueur)
                         {
-                            System.Diagnostics.Debug.WriteLine(v.id_Vol);
-                            res.Add(new VolPiste(v.id_Vol, p.id_piste));
+                        System.Diagnostics.Debug.WriteLine("temps_degagement : " + p.Degagement);
+                            res.Add(new VolPiste(v.id_Vol, p.id_piste,v.dateProbableArrivee,p.Degagement)); // add autant d'info possible
                         }
                     }
 

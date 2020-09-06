@@ -27,6 +27,7 @@ namespace Aiguilleur.Models
             using (SqlConnection connection = dbc.getCon())
             {
                 this.pistes = connection.Query<Piste>(sqlQuery).ToList();
+                System.Diagnostics.Debug.WriteLine("NAMERINA T DEGAG VE :"+pistes[0].Degagement);
             }
         }
 
