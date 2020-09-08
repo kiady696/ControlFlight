@@ -47,27 +47,19 @@ namespace Aiguilleur.Models
 
         public double besoin { get; set; }
 
-        //Logique pour l'attribution de piste selon temps
-            //Proposition.getTheseVolPistesOnePiste()
 
-
-
-
-
-
-
-        //Fonction qui attribue une piste a un vol selon longueur modele avion et longueur de piste
-        public static List<VolPiste> getPisteDistance(DBConnection dbc ,List<Vol> vols , Aeroport aeroport)
+        //Retourne une List<VolPiste> contenant le modele d'avion , le besoin et l'ordre selon dateProbable arrivee  
+        public static List<VolPiste> getVolsOrdered(DBConnection dbc ,List<Vol> vols , List<Piste> pistesOfAirport)
         {
 
-            System.Diagnostics.Debug.WriteLine(vols[0].id_Vol);
+            //tsy mbola milahatra selon dateProbArr eto
             List<VolPiste> res = new List<VolPiste>();
 
-                //get modele avion de ce vol
-                foreach (Vol v in vols)
-                {
-                    v.getModeleAvion();
-                }
+            //get modele avion de ce vol
+            foreach (Vol v in vols)
+            {
+                v.getModeleAvion();
+            }
 
 
             //get besoin de cet avion : 
@@ -75,18 +67,21 @@ namespace Aiguilleur.Models
             //si vols[i].action = 'atterir' => vols[i].besoin = (vols[i].modele_Avion.longueur + vols[i].modele_Avion.besoin_Atterrissage)
             System.Diagnostics.Debug.WriteLine(vols[0].action);
             foreach (Vol v in vols)
+            {
+                if (v.action == "Decoller")
                 {
-                    if (v.action == "Decoller")
-                    {
-                        v.besoin = (v.modele_Avion.longueur_modele + v.modele_Avion.besoin_Decollage);
-                    }
-                    else if (v.action == "Atterir")
-                    {
-                        v.besoin = (v.modele_Avion.longueur_modele + v.modele_Avion.besoin_Atterrissage);
-                    }
+                    v.besoin = (v.modele_Avion.longueur_modele + v.modele_Avion.besoin_Decollage);
+                    System.Diagnostics.Debug.WriteLine("Le besoin du vol "+v.id_Vol+" est "+v.besoin);
                 }
+                else if (v.action == "Atterir")
+                {
+                    v.besoin = (v.modele_Avion.longueur_modele + v.modele_Avion.besoin_Atterrissage);
+                    System.Diagnostics.Debug.WriteLine("Le besoin du vol " + v.id_Vol + " est " + v.besoin);
+                }
+            }
+            
 
-                //Comparer pour chaque besoins des vols et pour chaque Pistes de l'aeroport si vols[i].besoin < aeroport.pistes[i].longueur
+                /*//Comparer pour chaque besoins des vols et pour chaque Pistes de l'aeroport si vols[i].besoin < aeroport.pistes[i].longueur
                 //si le if est verifié , resultat.add(new VolPiste(id_Vol,num piste,....));
                 System.Diagnostics.Debug.WriteLine(vols[1].besoin);
                 foreach(Piste p in aeroport.pistes)
@@ -103,8 +98,18 @@ namespace Aiguilleur.Models
                     }
 
                     
-                }
-                return res;                 
+                }*/
+            
+            //Casting to VolPiste without any piste linking for the moment and so no piste.Degagement still known
+            foreach(Vol v in vols)
+            {
+                res.Add(new VolPiste(v.id_Vol, " ",v.besoin, v.dateProbableArrivee, 0));
+            }
+
+            //Eto vao alahatra selon dateProbArrivee
+            res = res.OrderBy(x => x.dateProbableArrivee).ToList();
+
+            return res;                 
         }
 
         ////get modele avion de ce vol

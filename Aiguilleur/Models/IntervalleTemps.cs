@@ -11,6 +11,7 @@ namespace Aiguilleur.Models
         {
             if(debut.CompareTo(fin) > 0 || fin.CompareTo(debut) < 0 || debut.CompareTo(fin) == 0)
             {
+                System.Diagnostics.Debug.WriteLine(debut.ToString()+" - "+fin.ToString());
                 throw new Exception("Erreur sur les intervalles de temps");
             }
             else

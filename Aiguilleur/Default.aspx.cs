@@ -105,11 +105,6 @@ namespace Aiguilleur
                 currentAirport.getVolAt(dateDebut, dateFin);
                 
                 //global list and airport for reuse of proposer
-                //aeroportGlobal = new Aeroport(currentAirport.id_aeroport);
-                /*for (int i = 0 ; i < currentAirport.vols.Count ; i++)
-                {
-                    listeVolsGlobale.Add(currentAirport.vols[i]);
-                }*/
                 listeVolsGlobale = currentAirport.vols.ToList();
                 
 
@@ -138,6 +133,7 @@ namespace Aiguilleur
         protected void Proposer(object sender, EventArgs e)
         {
             DBConnection dbc = new DBConnection();
+            this.Button2.Visible = true;
             try
             {
                 dbc.OpenConnection();
@@ -145,27 +141,30 @@ namespace Aiguilleur
                 string inputIdAirport = this.DropDownList1.Text.Substring(this.DropDownList1.Text.IndexOf('[') + 1); ; //Ilay idAeroport mila aMBOARINA FA TSY METY
                 inputIdAirport = inputIdAirport.Remove(inputIdAirport.Length - 1);
 
+                //The airport chosen
                 aeroportGlobal = new Aeroport(inputIdAirport);
-                aeroportGlobal.getPistes(dbc); //azo ny longueurs_pistes sy ny degagement 
-                                               
+
+                //Getting the airports pistes w/ piste details (longueurs_pistes sy ny degagement)
+                aeroportGlobal.getPistes(dbc); 
+
+                //Order listPist asc % length
+                aeroportGlobal.pistes = aeroportGlobal.pistes.OrderBy(x => x.longueur).ToList();
                 
-                List<VolPiste> listeRedondant = Vol.getPisteDistance(dbc, listeVolsGlobale, aeroportGlobal); //ilay liste vols mety misy miverimberina entre deux dates dans cet aeroport
+                //Getting the flights ordered with their Avion_Modele(besoins) without id_Pistes nor any piste info
+                List<VolPiste> listeVolPisteOrdered = Vol.getVolsOrdered(dbc, listeVolsGlobale , aeroportGlobal.pistes);
 
-                //set-ena ilay liste redondant attribut an'ny Proposition
-                Proposition propos = new Proposition(listeRedondant);
-                //Alahatra ordre croissant selon vol ze mila piste voalohany
-                propos.listePropositions = listeRedondant.OrderBy(o => o.dateProbableArrivee).ToList();
+                //A Proposition goes with a list of its proposed operator-scheduled flights (awaiting for use)
+                Proposition propos = new Proposition(listeVolPisteOrdered);
 
-                //Fonction be mtrier anle listeRedondant ho (1 id_vol+id_piste) pour chaque vol
-                propos.getTheseVolPistesOnePiste(dbc);
+                //BEHOLD the func that gives each ordered flights an adequate piste
+                List<VolPiste> res = propos.getTheseVolPistesOnePiste(listeVolPisteOrdered, aeroportGlobal.pistes, dbc);
 
 
-                ListeVols.DataSource = propos.listePropositions;   //NY APOITRA FARANY
+                //NY APOITRA FARANY
+                ListeVols.DataSource = res;   
                 ListeVols.DataBind();
 
-                //test
-                //ListeVols.DataSource = aeroportGlobal.pistes;
-                //ListeVols.DataBind();
+                
 
             }
             

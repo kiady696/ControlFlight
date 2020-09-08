@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Aiguilleur.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,8 +10,54 @@ namespace Aiguilleur.Utils
 {
     public class Utilitaires
     {
+        //Check if this piste is adequate for this Vol % length and temp
+        public static bool checkPiste(VolPiste vp , Piste p)
+        {
+            if(vp.besoin >= p.longueur)
+            {
+                return false;
+            }
+            else
+            {
+                if (p.tempsMisyAvion == null)
+                {
+                    p.tempsMisyAvion = new List<Occupation>();
+                    return true;
 
-        public static DateTime parseStringInputToDbDateTime(string dateInput,string dateFormatDb)
+                }
+                else
+                {
+                    foreach (Occupation o in p.tempsMisyAvion)
+                    {
+                        System.Diagnostics.Debug.WriteLine("vol :" + vp.id_Vol + " - " + vp.dateProbableArrivee + " - " + vp.fin_utilisation);
+                        System.Diagnostics.Debug.WriteLine("Occupation :" + o.id_piste + " - " + o.debut_occupation + " - " + o.fin_occupation);
+                        
+                        IntervalleTemps intvol = new IntervalleTemps(vp.dateProbableArrivee, vp.fin_utilisation);
+                        IntervalleTemps intOcc = new IntervalleTemps(o.debut_occupation, o.fin_occupation);
+                        if (intvol.checkIfCrossWith(intOcc))
+                        {
+                            return false;
+                        }
+
+                    }
+                }
+            }
+                
+
+            return false;
+             
+        }
+
+        public static bool checkPisteLongueur(VolPiste vp, Piste p)
+        {
+            if (vp.besoin >= p.longueur)
+            {
+                return false;
+            }
+            return true;
+        }
+
+                public static DateTime parseStringInputToDbDateTime(string dateInput,string dateFormatDb)
         {
             try
             {

@@ -28,6 +28,11 @@
         
         
 
+        <asp:Button ID="Button2" runat="server" Text="Valider Propositions" Visible="False" />
+        
+        
+        
+
     </asp:Panel>
 
     
